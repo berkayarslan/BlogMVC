@@ -1,0 +1,85 @@
+﻿@model Blogger.Web.Models.VMs.HomePageViewModel
+
+<div class="container mt-4">
+    <!-- Site Bilgisi ve Yönlendirme Bölümü -->
+    <section class="jumbotron text-center bg-light p-5 rounded">
+        <div class="container">
+            <h1 class="display-4">Welcome to Our Blog!</h1>
+            <p class="lead text-muted">Discover a variety of articles on different topics. Share your thoughts by joining our community.</p>
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <p>
+                    <a href="@Url.Action("Register", "User")" class="btn btn-primary btn-lg">Join Now</a>
+                    <a href="@Url.Action("About", "Home")" class="btn btn-secondary btn-lg">Learn More</a>
+                </p>
+            }
+        </div>
+    </section>
+
+    <!-- En Çok Okunan Makaleler Listesi -->
+    <section class="mb-5">
+        <h2 class="mb-4">Most Read Articles</h2>
+        <div class="row">
+            @if (Model?.MostReadArticles != null && Model.MostReadArticles.Any())
+            {
+                <ul class="list-group">
+                    @foreach (var article in Model.MostReadArticles)
+                    {
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5>@article.Title</h5>
+                                    <p class="mb-1">@article.AuthorName</p>
+                                </div>
+                                <div>
+                                    <a href="@Url.Action("Details", "Article", new { id = article.Id })" class="btn btn-sm btn-outline-primary">Read More</a>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>No articles available.</p>
+            }
+        </div>
+    </section>
+
+    <!-- Her Konuda Çeşitli Makaleler -->
+    <section class="mb-5">
+        <h2 class="mb-4">Articles by Topic</h2>
+        <div class="row">
+            @if (Model?.Topics != null && Model.Topics.Any())
+            {
+                @foreach (var topic in Model.Topics)
+                {
+                    if (topic?.Articles != null && topic.Articles.Any())
+                    {
+                        <div class="col-md-6">
+                            <h3>@topic.Name</h3>
+                            <ul class="list-unstyled">
+                                @foreach (var article in topic.Articles)
+                                {
+                                    <li>
+                                        <a href="@Url.Action("Details", "Article", new { id = article.Id })">
+                                            @article.Title
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <p>No articles available for this topic.</p>
+                    }
+                }
+            }
+            else
+            {
+                <p>No topics available.</p>
+            }
+        </div>
+    </section>
+</div>

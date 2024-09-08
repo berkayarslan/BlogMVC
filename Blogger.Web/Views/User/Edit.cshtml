@@ -1,0 +1,54 @@
+﻿@model Application.DTOs.UserDTOs.UpdateUserDto
+
+<div class="container">
+    <h2>Edit Profile</h2>
+
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <!-- First Name -->
+        <div class="form-group">
+            <label asp-for="FirstName"></label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+
+        <!-- Last Name -->
+        <div class="form-group">
+            <label asp-for="LastName"></label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <!-- Bio -->
+        <div class="form-group">
+            <label asp-for="Bio"></label>
+            <textarea asp-for="Bio" class="form-control"></textarea>
+            <span asp-validation-for="Bio" class="text-danger"></span>
+        </div>
+
+        <!-- Profile Image -->
+        <div class="form-group">
+            <label for="ProfileImage">Profile Image</label>
+            <input type="file" asp-for="ProfileImage" class="form-control" />
+            <span asp-validation-for="ProfileImage" class="text-danger"></span>
+
+
+            @if (!string.IsNullOrWhiteSpace(Model.ExistingProfileImageUrl))
+            {
+                <img src="@Model.ExistingProfileImageUrl" alt="Profile Image" class="img-thumbnail mt-2" style="max-width: 150px;" />
+
+            }
+        </div>
+
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ExistingProfileImageUrl" />
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
